@@ -51,7 +51,7 @@ jobs:
         ROS_DISTRO=${{ matrix.target.ros_distro }}
         ROS_TAG=${{ matrix.target.ros_tag }}
         UBUNTU_CODENAME=${{ matrix.target.ubuntu_codename }}
-        LIBREALSENSE_IMAGE=ghcr.io/ycpss91255-docker/librealsense:v2.55.1-focal
+        LIBREALSENSE_IMAGE=ghcr.io/ycpss91255-lab/librealsense:v2.55.1-focal
 
   # Stable-named aggregator so branch protection's required status check does
   # not have to enumerate every matrix entry. Branch protection references

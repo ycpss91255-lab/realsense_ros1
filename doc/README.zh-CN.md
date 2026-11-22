@@ -2,7 +2,7 @@
 
 # Intel RealSense Docker 容器（ROS 1 Noetic）
 
-[![CI](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
+[![CI](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
 
 ## TL;DR
 
@@ -125,7 +125,7 @@ rosrun rqt_image_view rqt_image_view             # pick /camera/color/image_raw 
 > 它会取代默认 launch：
 > `docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch filters:=pointcloud`。
 > `just run -t runtime <cmd>` 形式的覆写目前在 upstream 是坏的，正在修复中
-> （[base#679](https://github.com/ycpss91255-docker/base/issues/679)）。更多底层等价命令见
+> （[base#679](https://github.com/ycpss91255-lab/base/issues/679)）。更多底层等价命令见
 > [使用方式](#使用方式)。
 
 > **USB 2.x：** 若相机 log 出现 `Reduced performance ... 2.1 port` 且 topic 没有数据，
@@ -179,7 +179,7 @@ docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch \
 参数处理会无声地采用它而不是你的。跳过时 entrypoint 会在 stderr 说明。
 
 `just run -t runtime <cmd>` 覆写形式目前在 upstream 是坏的
-（[base#679](https://github.com/ycpss91255-docker/base/issues/679)），请改用上述
+（[base#679](https://github.com/ycpss91255-lab/base/issues/679)），请改用上述
 `docker compose run` 形式。
 
 ### Smoke tests（test 阶段）

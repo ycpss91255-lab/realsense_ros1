@@ -12,7 +12,7 @@ ARG LIBREALSENSE_VERSION="v2.55.1"
 # bats-support/assert/mock extensions). Resolves to `test-tools:local` for the
 # local `just build` flow (build.sh auto-builds it from
 # .base/dockerfile/Dockerfile.test-tools) or to the multi-arch
-# ghcr.io/ycpss91255-docker/test-tools:vX.Y.Z in CI. The image is multi-arch,
+# ghcr.io/ycpss91255-lab/test-tools:vX.Y.Z in CI. The image is multi-arch,
 # so `FROM ${TEST_TOOLS_IMAGE}` resolves the matching variant per build
 # platform -- that is what lets the arm64 build (#65) ship arm64 lint/bats
 # binaries with no per-repo arch-aware download logic. Consuming this image
@@ -23,7 +23,7 @@ ARG TEST_TOOLS_IMAGE="test-tools:local"
 # `librealsense:${LIBREALSENSE_VERSION}-${UBUNTU_CODENAME}` for the local `just
 # build` flow (the pre-build hook script/hooks/pre/build.sh auto-builds that tag
 # from docker/Dockerfile.librealsense when LIBREALSENSE_IMAGE is unset) or to the
-# multi-arch ghcr.io/ycpss91255-docker/librealsense:v2.55.1-focal in CI (injected
+# multi-arch ghcr.io/ycpss91255-lab/librealsense:v2.55.1-focal in CI (injected
 # via build_args, so the FROM below pulls the prebuilt image instead of
 # recompiling). The version+codename scope stops ros1 (v2.55.1) and ros2
 # (v2.58.2) clobbering one shared local tag; a wrong/missing version then fails
@@ -297,7 +297,7 @@ CMD ["bash"]
 
 ############################## devel-test (ephemeral) ##############################
 # Resolves to test-tools:local (local just build) or
-# ghcr.io/ycpss91255-docker/test-tools:vX.Y.Z (CI); see TEST_TOOLS_IMAGE at top.
+# ghcr.io/ycpss91255-lab/test-tools:vX.Y.Z (CI); see TEST_TOOLS_IMAGE at top.
 # hadolint ignore=DL3006
 FROM ${TEST_TOOLS_IMAGE} AS test-tools-stage
 

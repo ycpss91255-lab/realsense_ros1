@@ -2,7 +2,7 @@
 
 # Intel RealSense Docker コンテナ（ROS 1 Noetic）
 
-[![CI](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
+[![CI](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
 
 ## TL;DR
 
@@ -129,7 +129,7 @@ rosrun rqt_image_view rqt_image_view             # pick /camera/color/image_raw 
 > デフォルトの launch を置き換える低レベルコマンドを使います：
 > `docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch filters:=pointcloud`。
 > `just run -t runtime <cmd>` 形式の上書きは upstream で壊れており、修正中です
-> （[base#679](https://github.com/ycpss91255-docker/base/issues/679)）。他の低レベルの等価コマンドは
+> （[base#679](https://github.com/ycpss91255-lab/base/issues/679)）。他の低レベルの等価コマンドは
 > [使い方](#使い方) を参照。
 
 > **USB 2.x:** カメラの log に `Reduced performance ... 2.1 port` が出てトピックにデータが
@@ -186,7 +186,7 @@ docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch \
 しまうためです。スキップしたときは stderr にその旨を出力します。
 
 `just run -t runtime <cmd>` 形式の上書きは upstream で壊れているため
-（[base#679](https://github.com/ycpss91255-docker/base/issues/679)）、上記の
+（[base#679](https://github.com/ycpss91255-lab/base/issues/679)）、上記の
 `docker compose run` 形式を使ってください。
 
 ### Smoke tests（test ステージ）

@@ -2,7 +2,7 @@
 
 # Intel RealSense Docker 容器（ROS 1 Noetic）
 
-[![CI](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
+[![CI](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
 
 ## TL;DR
 
@@ -125,7 +125,7 @@ rosrun rqt_image_view rqt_image_view             # pick /camera/color/image_raw 
 > 指令，它會取代預設 launch：
 > `docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch filters:=pointcloud`。
 > `just run -t runtime <cmd>` 形式的覆寫目前在 upstream 是壞的，正在修復中
-> （[base#679](https://github.com/ycpss91255-docker/base/issues/679)）。更多 low-level
+> （[base#679](https://github.com/ycpss91255-lab/base/issues/679)）。更多 low-level
 > 等價指令見 [使用方式](#使用方式)。
 
 > **USB 2.x：** 若相機 log 出現 `Reduced performance ... 2.1 port` 且 topic 沒有資料，
@@ -179,7 +179,7 @@ token，就會完全跳過自己的注入，而不是再附加第二個 `filters
 last-wins 的參數處理會無聲地選用它、而不是你給的值。跳過時它會在 stderr 說明。
 
 `just run -t runtime <cmd>` 覆寫形式目前在 upstream 是壞的
-（[base#679](https://github.com/ycpss91255-docker/base/issues/679)），請改用上述
+（[base#679](https://github.com/ycpss91255-lab/base/issues/679)），請改用上述
 `docker compose run` 形式。
 
 ### Smoke tests（test 階段）

@@ -40,7 +40,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE: ghcr.io/ycpss91255-docker/librealsense
+  IMAGE: ghcr.io/ycpss91255-lab/librealsense
   UBUNTU_CODENAME: focal
   LIBREALSENSE_VERSION: v2.55.1
 
