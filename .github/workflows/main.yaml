@@ -31,7 +31,7 @@ jobs:
           # `ci-passed` aggregator below stays stable.
           - { name: noetic, ros_distro: noetic, ros_tag: ros-base, ubuntu_codename: focal }
     name: build (${{ matrix.target.name }})
-    uses: ycpss91255-docker/base/.github/workflows/build-worker.yaml@v0.41.0
+    uses: ycpss91255-docker/base/.github/workflows/build-worker.yaml@v0.43.0-rc6
     with:
       image_name: realsense_ros1
       platforms: linux/amd64,linux/arm64
@@ -73,7 +73,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
-    uses: ycpss91255-docker/base/.github/workflows/release-worker.yaml@v0.41.0
+    uses: ycpss91255-docker/base/.github/workflows/release-worker.yaml@v0.43.0-rc6
     with:
       archive_name_prefix: realsense_ros1
     secrets: inherit
