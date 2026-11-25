@@ -268,7 +268,7 @@ COPY --chmod=0644 "${FILTER_CONFIG}" /filter_config.yaml
 #                             A deployment bind-mounts its own over this to remap.
 #   /rs_camera_remap.example.launch  copy-me template (remap + include our config).
 COPY --chmod=0644 config/realsense/launch/rs_camera_config.launch config/realsense/launch/rs_camera.launch config/realsense/rs_camera_remap.example.launch /
-COPY --chown="${USER}":"${GROUP}" --chmod=0755 .base/config "${CONFIG_DIR}"
+COPY --chown="${USER}":"${GROUP}" --chmod=0755 .base/dist/config "${CONFIG_DIR}"
 COPY --chown="${USER}":"${GROUP}" --chmod=0755 "${CONFIG_SRC}" "${CONFIG_DIR}"
 
 # Copy RealSense udev rules
@@ -303,6 +303,7 @@ FROM ${TEST_TOOLS_IMAGE} AS test-tools-stage
 
 FROM devel AS devel-test
 
+# hadolint ignore=DL3066
 USER root
 
 # Install lint tools (from the pre-built multi-arch test-tools image)
@@ -312,8 +313,8 @@ COPY --from=test-tools-stage /usr/local/bin/hadolint /usr/local/bin/hadolint
 # Lint: ShellCheck (.sh) + Hadolint (Dockerfile)
 COPY .hadolint.yaml /lint/.hadolint.yaml
 COPY Dockerfile /lint/Dockerfile
-# base v0.41.0 moved the wrapper scripts under .base/script/docker/wrapper/,
-# so the old `COPY .base/script/docker/*.sh` glob matched nothing and broke
+# base v0.41.0 moved the wrapper scripts under .base/dist/script/docker/wrapper/,
+# so the old `COPY .base/dist/script/docker/*.sh` glob matched nothing and broke
 # this stage. The repo's own script/*.sh are symlinks to those wrappers, so
 # `COPY script/*.sh /lint/` already dereferences and lints them.
 COPY script/*.sh /lint/
@@ -321,7 +322,7 @@ COPY script/*.sh /lint/
 # script/hooks/pre/ is not matched; COPY it in explicitly (flattened name) so
 # the /lint/*.sh shellcheck glob below covers it too.
 COPY script/hooks/pre/build.sh /lint/hooks-pre-build.sh
-COPY .base/script/docker/lib /lint/lib
+COPY .base/dist/script/docker/lib /lint/lib
 RUN shellcheck -S warning /lint/*.sh /lint/lib/*.sh
 WORKDIR /lint
 RUN hadolint Dockerfile
@@ -335,8 +336,10 @@ RUN ln -sf /opt/bats/bin/bats /usr/local/bin/bats
 ENV BATS_LIB_PATH="/usr/lib/bats"
 
 # Smoke test
-COPY .base/test/smoke/ /smoke_test/
-COPY test/smoke/ /smoke_test/
+COPY .base/dist/test/bats/smoke/shared/ /smoke_test/
+COPY .base/dist/test/bats/smoke/devel-test/ /smoke_test/
+COPY test/bats/smoke/shared/ /smoke_test/
+COPY test/bats/smoke/devel-test/ /smoke_test/
 # The SHIPPED filter profiles as a test fixture (ephemeral devel-test stage
 # only). Every parser test otherwise runs on synthetic temp files, so rewriting
 # a profile into a form the entrypoint rejects would ship a filter-less image
