@@ -1,6 +1,6 @@
 # Intel RealSense Docker Container (ROS 1 Noetic)
 
-[![CI](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](./LICENSE)
+[![CI](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-lab/realsense_ros1/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](./LICENSE)
 
 **[English](README.md)** | **[繁體中文](doc/README.zh-TW.md)** | **[简体中文](doc/README.zh-CN.md)** | **[日本語](doc/README.ja.md)**
 
@@ -140,7 +140,7 @@ rosrun rqt_image_view rqt_image_view             # pick /camera/color/image_raw 
 > cloud), use the low-level command, which replaces the default launch:
 > `docker compose run --rm runtime roslaunch realsense2_camera rs_camera.launch filters:=pointcloud`.
 > The `just run -t runtime <cmd>` form of overriding is broken upstream and being
-> fixed ([base#679](https://github.com/ycpss91255-docker/base/issues/679)). More
+> fixed ([base#679](https://github.com/ycpss91255-lab/base/issues/679)). More
 > low-level equivalents are in [Usage](#usage).
 
 > **USB 2.x:** if the camera log shows `Reduced performance ... 2.1 port` and the
@@ -197,7 +197,7 @@ appending a second `filters:=` that roslaunch's last-wins arg handling would
 silently prefer over yours. It says so on stderr when it skips.
 
 The `just run -t runtime <cmd>` override form is broken upstream
-([base#679](https://github.com/ycpss91255-docker/base/issues/679)), so prefer the
+([base#679](https://github.com/ycpss91255-lab/base/issues/679)), so prefer the
 `docker compose run` form above.
 
 ### Smoke tests (test stages)

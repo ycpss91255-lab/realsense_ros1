@@ -12,7 +12,7 @@ ARG LIBREALSENSE_VERSION="v2.55.1"
 # bats-support/assert/mock extensions). Resolves to `test-tools:local` for the
 # local `just build` flow (build.sh auto-builds it from
 # .base/dockerfile/Dockerfile.test-tools) or to the multi-arch
-# ghcr.io/ycpss91255-docker/test-tools:vX.Y.Z in CI. The image is multi-arch,
+# ghcr.io/ycpss91255-lab/test-tools:vX.Y.Z in CI. The image is multi-arch,
 # so `FROM ${TEST_TOOLS_IMAGE}` resolves the matching variant per build
 # platform -- that is what lets the arm64 build (#65) ship arm64 lint/bats
 # binaries with no per-repo arch-aware download logic. Consuming this image
@@ -23,7 +23,7 @@ ARG TEST_TOOLS_IMAGE="test-tools:local"
 # `librealsense:${LIBREALSENSE_VERSION}-${UBUNTU_CODENAME}` for the local `just
 # build` flow (the pre-build hook script/hooks/pre/build.sh auto-builds that tag
 # from docker/Dockerfile.librealsense when LIBREALSENSE_IMAGE is unset) or to the
-# multi-arch ghcr.io/ycpss91255-docker/librealsense:v2.55.1-focal in CI (injected
+# multi-arch ghcr.io/ycpss91255-lab/librealsense:v2.55.1-focal in CI (injected
 # via build_args, so the FROM below pulls the prebuilt image instead of
 # recompiling). The version+codename scope stops ros1 (v2.55.1) and ros2
 # (v2.58.2) clobbering one shared local tag; a wrong/missing version then fails
@@ -268,7 +268,7 @@ COPY --chmod=0644 "${FILTER_CONFIG}" /filter_config.yaml
 #                             A deployment bind-mounts its own over this to remap.
 #   /rs_camera_remap.example.launch  copy-me template (remap + include our config).
 COPY --chmod=0644 config/realsense/launch/rs_camera_config.launch config/realsense/launch/rs_camera.launch config/realsense/rs_camera_remap.example.launch /
-COPY --chown="${USER}":"${GROUP}" --chmod=0755 .base/config "${CONFIG_DIR}"
+COPY --chown="${USER}":"${GROUP}" --chmod=0755 .base/dist/config "${CONFIG_DIR}"
 COPY --chown="${USER}":"${GROUP}" --chmod=0755 "${CONFIG_SRC}" "${CONFIG_DIR}"
 
 # Copy RealSense udev rules
@@ -297,12 +297,13 @@ CMD ["bash"]
 
 ############################## devel-test (ephemeral) ##############################
 # Resolves to test-tools:local (local just build) or
-# ghcr.io/ycpss91255-docker/test-tools:vX.Y.Z (CI); see TEST_TOOLS_IMAGE at top.
+# ghcr.io/ycpss91255-lab/test-tools:vX.Y.Z (CI); see TEST_TOOLS_IMAGE at top.
 # hadolint ignore=DL3006
 FROM ${TEST_TOOLS_IMAGE} AS test-tools-stage
 
 FROM devel AS devel-test
 
+# hadolint ignore=DL3066
 USER root
 
 # Install lint tools (from the pre-built multi-arch test-tools image)
@@ -312,8 +313,8 @@ COPY --from=test-tools-stage /usr/local/bin/hadolint /usr/local/bin/hadolint
 # Lint: ShellCheck (.sh) + Hadolint (Dockerfile)
 COPY .hadolint.yaml /lint/.hadolint.yaml
 COPY Dockerfile /lint/Dockerfile
-# base v0.41.0 moved the wrapper scripts under .base/script/docker/wrapper/,
-# so the old `COPY .base/script/docker/*.sh` glob matched nothing and broke
+# base v0.41.0 moved the wrapper scripts under .base/dist/script/docker/wrapper/,
+# so the old `COPY .base/dist/script/docker/*.sh` glob matched nothing and broke
 # this stage. The repo's own script/*.sh are symlinks to those wrappers, so
 # `COPY script/*.sh /lint/` already dereferences and lints them.
 COPY script/*.sh /lint/
@@ -321,7 +322,7 @@ COPY script/*.sh /lint/
 # script/hooks/pre/ is not matched; COPY it in explicitly (flattened name) so
 # the /lint/*.sh shellcheck glob below covers it too.
 COPY script/hooks/pre/build.sh /lint/hooks-pre-build.sh
-COPY .base/script/docker/lib /lint/lib
+COPY .base/dist/script/docker/lib /lint/lib
 RUN shellcheck -S warning /lint/*.sh /lint/lib/*.sh
 WORKDIR /lint
 RUN hadolint Dockerfile
@@ -335,8 +336,10 @@ RUN ln -sf /opt/bats/bin/bats /usr/local/bin/bats
 ENV BATS_LIB_PATH="/usr/lib/bats"
 
 # Smoke test
-COPY .base/test/smoke/ /smoke_test/
-COPY test/smoke/ /smoke_test/
+COPY .base/dist/test/bats/smoke/shared/ /smoke_test/
+COPY .base/dist/test/bats/smoke/devel-test/ /smoke_test/
+COPY test/bats/smoke/shared/ /smoke_test/
+COPY test/bats/smoke/devel-test/ /smoke_test/
 # The SHIPPED filter profiles as a test fixture (ephemeral devel-test stage
 # only). Every parser test otherwise runs on synthetic temp files, so rewriting
 # a profile into a form the entrypoint rejects would ship a filter-less image

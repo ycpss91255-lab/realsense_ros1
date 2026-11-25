@@ -1,6 +1,6 @@
 # Prebuilt librealsense SDK source image: compiles librealsense ONCE and
 # publishes to
-# ghcr.io/ycpss91255-docker/librealsense:${LIBREALSENSE_VERSION}-${UBUNTU_CODENAME},
+# ghcr.io/ycpss91255-lab/librealsense:${LIBREALSENSE_VERSION}-${UBUNTU_CODENAME},
 # so the main Dockerfile FROMs it and COPYs the prebuilt trees instead of
 # recompiling (~15-25 min) every build. ROS 1 (Noetic / ros1-legacy) is TERMINAL
 # at librealsense v2.55.1: v2.56+ pulls ROS 2 DDS artifacts the ros1-legacy
